@@ -62,19 +62,19 @@ def stations():
     # Create our session (link) from Python to the DB
     station_q = session.query(Station.station).all()
 
-    station = list(np.ravel(station_q))
+    stations = list(np.ravel(station_q))
 
-    return jsonify(station)
+    return jsonify(stations)
 
 @app.route("/api/v1.0/tobs")
 def temps():
     # Create our session (link) from Python to the DB
     # Query the last 12 months of temperature observation data for the most active station in terms of number of temperature observations...
     prev_year = dt.date(2017,8,23) - dt.timedelta(days = 365)
-    temperature = session.query(Measurement.station, Measurement.date, Measurement.tobs).filter(Measurement.station == 'USC00519281').filter(Measurement.date >= prev_year)
-    temp = list(np.ravel(temperature))
+    temperature = session.query(Measurement.station, Measurement.date, Measurement.tobs).filter(Measurement.station == 'USC00519281').filter(Measurement.date >= prev_year).all()
+    temps = list(np.ravel(temperature))
 
-    return jsonify(temp)
+    return jsonify(temps)
 
 
 @app.route("/api/v1.0/start_date")
